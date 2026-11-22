@@ -25,10 +25,14 @@ namespace Adrian10E_8
 
         Random rand = new Random();
 
-        bool goLeft, goRight, goDown, goUp;
+        bool goLeft=true, goRight, goDown, goUp;
+        int deaths = 0;
+        int X = 0;
+        int Y = 0;
         public Form1()
         {
             InitializeComponent();
+            RestartGame();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -50,7 +54,7 @@ namespace Adrian10E_8
             {
                 goUp = true;
             }
-            if (e.KeyCode == Keys.Up && Settings.directions != "up")
+            if (e.KeyCode == Keys.Down && Settings.directions != "up")
             {
                 goDown = true;
             }
@@ -166,11 +170,7 @@ namespace Adrian10E_8
                         Snake[i].Y = 0;
                     }
 
-                    if (Snake[i].X == food.X && Snake[i].Y == food.Y)
-                    {
-                        EatFood();
-                    }
-
+                    
                     for (int j = 1; j < Snake.Count; j++)
                     {
                         if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
@@ -184,8 +184,21 @@ namespace Adrian10E_8
                     Snake[i].X = Snake[i - 1].X;
                     Snake[i].Y = Snake[i - 1].Y;
                 }
+
+
+            
             }
+            if (Math.Abs(Snake[0].X - food.X) <=0 && Math.Abs(Snake[0].Y - food.Y) <=0)
+            {
+                EatFood();
+            }
+
+            label2.Text = "Xdistance" + Math.Abs(Snake[0].X * Settings.Width - food.X );
+            label3.Text = "Ydistance" + Math.Abs(Snake[0].Y * Settings.Height - food.Y );
+            label4.Text = "head" + Snake[0].X * Settings.Width + "," + Snake[0].Y * Settings.Height;
+
             picCanvas.Invalidate();
+            
         }
 
         private void UpdatePictureBoxGraphics(object sender, PaintEventArgs e)
@@ -214,14 +227,22 @@ namespace Adrian10E_8
 
             canvas.FillEllipse(Brushes.DarkRed, new Rectangle
                 (
-                food.X * Settings.Width,
-                food.Y * Settings.Height,
+                food.X * 16,
+                food.Y * 16,
                 Settings.Width, Settings.Height));
         }
+
+        private void startButton_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
         private void RestartGame()
         {
-           maxWidth = picCanvas.Width / Settings.Width - 1;
-            maxHeight = picCanvas.Height / Settings.Height - 1;
+            maxWidth = picCanvas.Width / (Settings.Width - 1);
+            //maxWidth = picCanvas.Width;
+            //maxHeight = picCanvas.Height;
+            maxHeight = picCanvas.Height / (Settings.Height - 1);
 
             Snake.Clear();
 
@@ -233,7 +254,7 @@ namespace Adrian10E_8
             Circle head = new Circle { X = 10, Y = 5 };
             Snake.Add(head); // adding the head part of the snake to the list
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 1; i++)
             {
                 Circle body = new Circle();
                 Snake.Add(body);
@@ -275,6 +296,8 @@ namespace Adrian10E_8
                 txtHighScore.ForeColor = Color.Maroon;
                 txtHighScore.TextAlign = ContentAlignment.MiddleCenter;
             }
+            deaths++;
+            label1.Text = "DEATHS: " + deaths;
         }
     }
 }

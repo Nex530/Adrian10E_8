@@ -8,16 +8,11 @@ namespace Adrian10E_8
 {
     class Settings
     {
-        public static int Width { get; set; }
-        public static int Height { get; set; }
+        private static int width = 16;
+        private static int height = 16;
+        public static int Width { get { return width; } }
+        public static int Height { get { return height; } }
 
-        public static string directions;
-
-        public Settings()
-        {
-            Width = 16;
-            Height = 16;
-            directions = "left";
-        }
+        public static string directions = "left";
     }
 }
