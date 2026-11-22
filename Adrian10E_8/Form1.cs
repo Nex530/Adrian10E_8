@@ -25,7 +25,7 @@ namespace Adrian10E_8
 
         Random rand = new Random();
 
-        bool goLeft=true, goRight, goDown, goUp;
+        bool goLeft, goRight, goDown, goUp;
         int deaths = 0;
         int X = 0;
         int Y = 0;
@@ -45,18 +45,23 @@ namespace Adrian10E_8
             if (e.KeyCode == Keys.Left && Settings.directions != "right") 
             {
                 goLeft = true;
+                Settings.directions = "left";
             }
             if (e.KeyCode == Keys.Right && Settings.directions != "left")
             {
                 goRight = true;
+                Settings.directions = "right"; 
+                
             }
             if (e.KeyCode == Keys.Up && Settings.directions != "down")
             {
                 goUp = true;
+                Settings.directions = "up";
             }
             if (e.KeyCode == Keys.Down && Settings.directions != "up")
             {
                 goDown = true;
+                Settings.directions = "down";
             }
         }
 
@@ -239,10 +244,10 @@ namespace Adrian10E_8
 
         private void RestartGame()
         {
-            maxWidth = picCanvas.Width / (Settings.Width - 1);
+            maxWidth = picCanvas.Width / (Settings.Width - 1)-2;
             //maxWidth = picCanvas.Width;
             //maxHeight = picCanvas.Height;
-            maxHeight = picCanvas.Height / (Settings.Height - 1);
+            maxHeight = picCanvas.Height / (Settings.Height - 1)-2;
 
             Snake.Clear();
 
